@@ -1,4 +1,4 @@
-﻿using System;
+﻿//using System;
 
 //Console.Write("Enter Your Full Name: ");
 //string name = Console.ReadLine();
@@ -13,6 +13,9 @@ string word = Console.ReadLine();
 string uword = word.ToUpper();
 Console.WriteLine($"Given word in upper case:, {uword}");
 */
+
+// ======
+/*
 // Class Work-2
 Console.Write("Enter meter to convert ot feet");
 var length = Console.ReadLine();
@@ -74,3 +77,48 @@ data[0] = dp1;
 // 3,4,5
 //1,2
 //3,4,5,6,7,8,9
+
+*/
+
+/*
+// Assignment QNo. 1
+// Program to calculate area of circle.
+using System;
+class Circle
+{
+    static void Main(string[] args)
+    {
+        Console.Write("Enter Radius: ");
+        double Radious = Convert.ToDouble(Console.ReadLine());
+        double Area = Math.PI * Radious * Radious;
+        Console.WriteLine("Area of circle: " + Area);
+        Console.ReadKey();
+    }
+}
+*/
+
+// Assignment QNo. 2
+// Program to convert entered days into years, weeks, and days.
+
+using System;
+
+class Dayconversion
+{
+    static void Main(string[] args)
+    {
+        int num     =0;
+        int years   =0;
+        int weeks   =0;
+        int days    =0;
+        
+        
+        Console.Write("Enter number of days: ");
+        num = Convert.ToInt32(Console.ReadLine());
+        
+        years = num / 365;
+        weeks = (num % 365) / 7;
+        days  = (num % 365) % 7;
+
+        Console.WriteLine($"{num} is equal to => {years} Year/s, {weeks} Week/s & {days} Day/s");
+    }
+}
