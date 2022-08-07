@@ -101,7 +101,7 @@ class Circle
 // Program to convert entered days into years, weeks, and days.
 
 using System;
-
+/*
 class Dayconversion
 {
     static void Main(string[] args)
@@ -122,3 +122,4 @@ class Dayconversion
         Console.WriteLine($"{num} is equal to => {years} Year/s, {weeks} Week/s & {days} Day/s");
     }
 }
+*/
