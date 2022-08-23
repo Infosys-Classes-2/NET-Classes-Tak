@@ -23,6 +23,11 @@ public class HomeController : Controller
         return View();
     }
 
+    public String Test()
+    {
+        return "Hello There!!!";
+    }
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
