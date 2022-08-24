@@ -14,17 +14,19 @@ namespace HelloWeb.Controllers
                 FirstName = "Ram",
                 LastName = "Basnet",
                 Designation = "Software Engineer",
-                level = "7",
+                level = 7,
+                JoinDate = DateTime.Now,
                 Department = "HRS",
 
             };
 
             Employee employee2 = new()
             {
-                FirstName = "Ram",
-                LastName = "Basnet",
+                FirstName = "Jenny",
+                LastName = "Maharjan",
                 Designation = "Software Engineer",
-                level = "7",
+                level = 7,
+                JoinDate= DateTime.Now,
                 Department = "HRS",
 
             };
