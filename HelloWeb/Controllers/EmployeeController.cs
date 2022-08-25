@@ -33,5 +33,24 @@ namespace HelloWeb.Controllers
             List<Employee> employees = new List<Employee>() { employee1, employee2};
             return View(employees);
         }
+        [HttpGet]
+        public IActionResult Add() //view lae data dina, user lai form display garna
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Add(Employee emp) //View bata data pauna, user lai form pathauna viewma
+        {
+            // Add to db
+            Employee.Add(emp);
+            return RedirectToAction(nameof(List)); //"List"
+        }
+
+       public IActionResult Edit(int id)
+        {
+            var employee = employee.Where(XmlConfigurationExtensions => x.ID == id).First();
+            return View();
+        }
     }
 }
