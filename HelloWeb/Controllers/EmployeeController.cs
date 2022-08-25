@@ -30,7 +30,8 @@ namespace HelloWeb.Controllers
                 Department = "HRS",
 
             };
-            List<Employee> employees = new List<Employee>() { employee1, employee2};
+            List<Employee> employees = new List<Employee>() { employee1, employee2 };
+
             return View(employees);
         }
         [HttpGet]
@@ -43,13 +44,13 @@ namespace HelloWeb.Controllers
         public IActionResult Add(Employee emp) //View bata data pauna, user lai form pathauna viewma
         {
             // Add to db
-            Employee.Add(emp);
+            //Employee.Add(emp);
             return RedirectToAction(nameof(List)); //"List"
         }
 
        public IActionResult Edit(int id)
         {
-            var employee = employee.Where(XmlConfigurationExtensions => x.ID == id).First();
+            //var employee = Employee.Where(XmlConfigurationExtensions => x.ID == id).First();
             return View();
         }
     }

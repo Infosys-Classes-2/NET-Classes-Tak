@@ -1,12 +1,14 @@
-﻿@{
+﻿//For Titel pulling
+@{
     ViewData["Title"] = "Employee List";
 }
 
+@model List<Employee>
 
-<h2>Employees</h2>
+<h2>All Employees</h2>
 <a asp-controller="Employee" asp-action="Add" ><i class="btn btn-success mt-1"></i></a>
 
-<table>
+<table class="table">
     <tr>
         <th>FirstName</th>
         <th>LastName</th>
