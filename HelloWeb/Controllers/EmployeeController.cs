@@ -5,12 +5,11 @@ namespace HelloWeb.Controllers
 {
     public class EmployeeController : Controller
     {
-        // employee/list
-        
-        public IActionResult List()
+        static List<Employee> employees = new()
         {
-            Employee employee1 = new()
+            new()
             {
+                Id = 1,
                 FirstName = "Ram",
                 LastName = "Basnet",
                 Designation = "Software Engineer",
@@ -18,20 +17,21 @@ namespace HelloWeb.Controllers
                 JoinDate = DateTime.Now,
                 Department = "HRS",
 
-            };
-
-            Employee employee2 = new()
+            },
+            new()
             {
-                FirstName = "Jenny",
-                LastName = "Maharjan",
+                Id=2,
+                FirstName = "Ram",
+                LastName = "Basnet",
                 Designation = "Software Engineer",
                 level = 7,
-                JoinDate= DateTime.Now,
+                JoinDate = DateTime.Now,
                 Department = "HRS",
 
-            };
-            List<Employee> employees = new List<Employee>() { employee1, employee2 };
-
+            }
+        };
+        public IActionResult List()
+        {            
             return View(employees);
         }
         [HttpGet]
@@ -44,14 +44,15 @@ namespace HelloWeb.Controllers
         public IActionResult Add(Employee emp) //View bata data pauna, user lai form pathauna viewma
         {
             // Add to db
-            //Employee.Add(emp);
+            employees.Add(emp);
             return RedirectToAction(nameof(List)); //"List"
         }
 
        public IActionResult Edit(int id)
         {
+            var employee = employees.Where(x => x.Id == id).First();
             //var employee = Employee.Where(XmlConfigurationExtensions => x.ID == id).First();
-            return View();
+            return View(employee);
         }
     }
 }

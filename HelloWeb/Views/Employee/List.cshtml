@@ -1,15 +1,16 @@
-﻿//For Titel pulling
-@{
+﻿@{
     ViewData["Title"] = "Employee List";
 }
 
 @model List<Employee>
 
-<h2>All Employees</h2>
-<a asp-controller="Employee" asp-action="Add" ><i class="btn btn-success mt-1"></i></a>
 
+<a asp-controller="Employee" asp-action="Add" class="btn btn-success mt-2">Add Employee</a>
+
+<h2>Employees List</h2>
 <table class="table">
     <tr>
+        <th>Id</th>
         <th>FirstName</th>
         <th>LastName</th>
         <th>Degination</th>
@@ -18,10 +19,10 @@
         <th>Join Date</th>
         <th>Action</th>
     </tr>
-    
-    @foreach(Employee employee in Model)
-    {
+        @foreach (Employee employee in Model)
+        {
         <tr>
+            <td>@employee.Id</td>
             <td>@employee.FirstName</td>
             <td>@employee.LastName</td>
             <td>@employee.Designation</td>
@@ -29,10 +30,9 @@
             <td>@employee.Department</td>
             <td>@employee.JoinDate</td>
             <td>
-                <a href="/employee/edit"><i class="bi bi-pencil-square"></i></a>
+                <a href="/employee/edit/@employee.Id"><i class="bi bi-pencil-square"></i></a>
                 <a href="/employee/delete"><i class="bi bi-trash"></i></a>
             </td>
-        </tr>
-    }
-    
+         </tr>
+        }
 </table>
