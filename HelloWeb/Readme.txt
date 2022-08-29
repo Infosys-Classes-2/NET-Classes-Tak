@@ -18,3 +18,8 @@
 
 Employee
 -- Add, Modify, Delete
+
+# Database Programming
+-- Relational (MySql, Oracle, Sql Server, Sqlite, Postgres etc.), No-SQL(MongoDb etc.)
+-- ADO.NET: Active Data Objects .NET
+-- ORM tool (Object  Relational Mapper): EF Core, NHibernate, Dapper, RepoDb etc.
