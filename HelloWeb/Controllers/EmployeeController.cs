@@ -33,7 +33,7 @@ namespace HelloWeb.Controllers
         };
         public IActionResult List()
         {
-            GetPeople();
+            //GetPeople();
             return View(employees);
         }
         [HttpGet]
