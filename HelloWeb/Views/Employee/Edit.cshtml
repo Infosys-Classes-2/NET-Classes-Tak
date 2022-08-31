@@ -19,10 +19,16 @@
         <div class="nb-2"
     <label asp-for="level" class="form-label"></label>
     <input asp-for="level" class="form-control" />
-    </div> <div class="nb-2"
+    </div>
+        <div class="nb-2"
+    <label asp-for="Department" class="form-label"></label>
+    <input asp-for="Department" class="form-control" />
+    </div>
+    <div class="nb-2"
     <label asp-for="JoinDate" class="form-label"></label>
     <input asp-for="JoinDate" class="form-control" />
     </div>
+        <a class="btn btn-success" asp-controller="Employee" asp-action="List">Cancel</a>
         <button type="submit" class="btn btn-success"><i class="bi bi-pencil-fill"></i>Update Eployee</button>
     </form>
 </div>

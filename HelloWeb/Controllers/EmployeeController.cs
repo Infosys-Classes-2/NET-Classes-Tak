@@ -1,62 +1,81 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using HelloWeb.Models;
 using Microsoft.Data.SqlClient;
+using HelloWeb.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace HelloWeb.Controllers
 {
     public class EmployeeController : Controller
     {
-        static List<Employee> employees = new()
-        {
-            new()
-            {
-                Id = 1,
-                FirstName = "Ram",
-                LastName = "Basnet",
-                Designation = "Software Engineer",
-                level = 7,
-                JoinDate = DateTime.Now,
-                Department = "HRS",
+        // Tightly coupled code
+        // EmployeeContext db = new EmployeeContext();
 
-            },
-            new()
-            {
-                Id=2,
-                FirstName = "Ram",
-                LastName = "Basnet",
-                Designation = "Software Engineer",
-                level = 7,
-                JoinDate = DateTime.Now,
-                Department = "HRS",
+        private readonly EmployeeContext db;
 
-            }
-        };
-        public IActionResult List()
+        // Dependency injection (DI), built-in
+        public EmployeeController(EmployeeContext _db)
         {
+            this.db = _db;
+        }
+
+        [HttpGet]
+        // Async application
+        public async Task<IActionResult> List()
+        {
+            //EmployeeContext db = new();
+            var employees = await db.Employees.ToListAsync();
             //GetPeople();
             return View(employees);
         }
-        [HttpGet]
+        [HttpGet] // This will be called when 'Add Employee' button is clicked
         public IActionResult Add() //view lae data dina, user lai form display garna
         {
             return View();
         }
 
-        [HttpPost]
-        public IActionResult Add(Employee emp) //View bata data pauna, user lai form pathauna viewma
+        [HttpPost] // This will be called when submit button click
+        public async Task<IActionResult> Add(Employee emp) //View bata data pauna, db lai data pathauna viewbata
         {
             // Add to db
-            employees.Add(emp);
+            //employees.Add(emp)
+            await db.Employees.AddAsync(emp);
+            await db.SaveChangesAsync();
             return RedirectToAction(nameof(List)); //"List"
         }
 
-        public IActionResult Edit(int id)
+        
+        public async Task<IActionResult> Edit(int id)
         {
-            var employee = employees.Where(x => x.Id == id).First();
+            var employee = await db.Employees.FindAsync(id);
             //var employee = Employee.Where(XmlConfigurationExtensions => x.ID == id).First();
             return View(employee);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Edit(Employee emp) //View bata data pauna, user lai form pathauna viewma
+        {
+            db.Employees.Update(emp);
+            await db.SaveChangesAsync();
+            return RedirectToAction(nameof(List)); //"List"
+        }
+
+        [HttpGet]
+        public IActionResult Delete(int id) //View bata data pauna, user lai form pathauna viewma
+        {            
+            var employee = db.Employees.Find(id);
+            return View(employee);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(Employee emp) //View bata data pauna, user lai form pathauna viewma
+        {
+            db.Employees.Remove(emp);
+            db.SaveChanges();
+            return RedirectToAction(nameof(List));
+        }
+
+        // Using ADO.NET
         public void GetPeople()
         {
             // Using ADO.NET

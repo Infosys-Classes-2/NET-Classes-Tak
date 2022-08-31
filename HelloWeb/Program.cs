@@ -1,7 +1,11 @@
+using HelloWeb.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+// Dependency Injection Built-in link (configuration)
+builder.Services.AddDbContext<EmployeeContext>();
 
 var app = builder.Build();
 
