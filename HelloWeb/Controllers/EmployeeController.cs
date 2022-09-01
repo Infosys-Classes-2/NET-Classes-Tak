@@ -3,6 +3,7 @@ using HelloWeb.Models;
 using Microsoft.Data.SqlClient;
 using HelloWeb.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace HelloWeb.Controllers
 {
@@ -24,13 +25,38 @@ namespace HelloWeb.Controllers
         public async Task<IActionResult> List()
         {
             //EmployeeContext db = new();
-            var employees = await db.Employees.ToListAsync();
+            var employees = await db.Employees.Include(x => x.Department).ToListAsync();
+            var degsination = await db.Employees.Include(x => x.Designation).ToListAsync();
+            /*
+            var quaryEmployee = from employee in db.Employees
+                                join dept in db.Department on employee.DepartmentId equals dept.Id
+                                select new
+                                {
+                                    Name = employee.FirstName,
+                                    Department = dept.Name
+                                };
+            */
             //GetPeople();
             return View(employees);
         }
         [HttpGet] // This will be called when 'Add Employee' button is clicked
-        public IActionResult Add() //view lae data dina, user lai form display garna
+        public async Task<IActionResult> Add() //view lae data dina, user lai form display garna
         {
+            // Dropdown list selection for form field for Dept
+            var department = await db.Department.ToListAsync();
+            ViewData["Department"] = department.Select(x => new SelectListItem()
+            {
+                Text = x.Name,
+                Value = x.Id.ToString()
+            });
+
+            // Dropdown list selection for form field for Designation
+            var designation = await db.Designation.ToListAsync();
+            ViewData["Designation"] = designation.Select(x => new SelectListItem()
+            {
+                Text = x.Name,
+                Value = x.Id.ToString()
+            });
             return View();
         }
 

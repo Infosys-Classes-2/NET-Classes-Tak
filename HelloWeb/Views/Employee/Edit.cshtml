@@ -1,4 +1,8 @@
 ﻿@model Employee
+@{
+    ViewData["Title"] = "Edit Employee";
+}
+
 
 <h2>Update Employee</h2>
 
@@ -28,7 +32,8 @@
     <label asp-for="JoinDate" class="form-label"></label>
     <input asp-for="JoinDate" class="form-control" />
     </div>
-        <a class="btn btn-success" asp-controller="Employee" asp-action="List">Cancel</a>
+        <!--<a class="btn btn-success" asp-controller="Employee" asp-action="List">Cancel</a>-->
         <button type="submit" class="btn btn-success"><i class="bi bi-pencil-fill"></i>Update Eployee</button>
+        <a asp-action="List">Back to List</a>
     </form>
 </div>

@@ -15,5 +15,6 @@ namespace HelloWeb.Data
         }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Department> Department { get; set; }
+        public DbSet<Designation> Designation { get; set; }
     }
 }
