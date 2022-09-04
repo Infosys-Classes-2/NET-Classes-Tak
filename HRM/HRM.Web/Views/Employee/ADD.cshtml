@@ -10,10 +10,12 @@
 <form method="post">
     <div class="nb-2">
     <label asp-for="FirstName" class="form-label"></label>
+    <span asp-validation-for="FirstName" class="text-danger"></span>
     <input asp-for="FirstName" class="form-control" />
     </div>
     <div class="nb-2">
     <label asp-for="LastName" class="form-label"></label>
+            <span asp-validation-for="LastName" class="text-danger"></span>
     <input asp-for="LastName" class="form-control" />
     </div>
     <div class="nb-2">
@@ -25,6 +27,7 @@
     </div>
     <div class="nb-2">
     <label asp-for="level" class="form-label"></label>
+            <span asp-validation-for="level" class="text-danger"></span>
     <input asp-for="level" class="form-control" />
     </div>
         <div class="nb-2">
@@ -36,6 +39,7 @@
             </div>
     <div class="nb-2">
     <label asp-for="JoinDate" class="form-label"></label>
+            <span asp-validation-for="JoinDate" class="text-danger"></span>
     <input asp-for="JoinDate" class="form-control" />
     </div>
         <!--<a class="btn btn-success" asp-controller="Employee" asp-action="List">Cancel</a>-->
@@ -43,3 +47,9 @@
         <a asp-action="List">Back to List</a>
 </form>
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
