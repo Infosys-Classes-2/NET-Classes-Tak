@@ -1,0 +1,44 @@
+﻿@{
+    ViewData["Title"] = "Employee List";
+}
+
+@model List<Employee>
+
+
+<a asp-controller="Employee" asp-action="Add" class="btn btn-success mt-2">Add Employee</a>
+
+<h2>Employees List</h2>
+<table class="table">
+    <tr>
+        <th>Id</th>
+        <th>FirstName</th>
+        <th>LastName</th>
+        <th>Degination</th>
+        <th>Level</th>
+        <th>Department</th>
+        <th>Join Date</th>
+        <th>Action</th>
+    </tr>
+        @foreach (Employee employee in Model)
+        {
+        <tr>
+            <td>@employee.Id</td>
+            <td>@employee.FirstName</td>
+            <td>@employee.LastName</td>
+            <td>@employee.Designation.Name</td>
+            <td>@employee.level</td>
+            <td>@employee.Department.Name</td>
+            <td>@employee.JoinDate</td>
+            <!--
+            <td>
+                <a asp-controller="Employee" asp-action="Edit" asp-route-id="@employee.Id" title="Edit"><i class="bi bi-pencil-square text-warning"></i></a>
+                <a href="/employee/delete/@employee.Id" title="Delete"><i class="bi bi-trash3 text-danger"></i></a>
+            </td>
+            -->
+            <td>
+                <a asp-action="Edit" asp-route-id="@employee.Id">Edit</a> |
+                <a asp-action="Delete" asp-route-id="@employee.Id">Delete</a>
+            </td>
+         </tr>
+        }
+</table>

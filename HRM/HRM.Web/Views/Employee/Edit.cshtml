@@ -18,7 +18,9 @@
     </div>
         <div class="nb-2"
     <label asp-for="Designation" class="form-label"></label>
-    <input asp-for="Designation" class="form-control" />
+    <select asp-for="DesignationId" asp-items="@ViewData["Designation"] as IEnumerable<SelectListItem>" class="form-select">
+            </select>
+    <!--<input asp-for="Designation" class="form-control" />-->
     </div>
         <div class="nb-2"
     <label asp-for="level" class="form-label"></label>

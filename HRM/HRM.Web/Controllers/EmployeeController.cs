@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using HelloWeb.Models;
+using HRM.Web.Models;
 using Microsoft.Data.SqlClient;
-using HelloWeb.Data;
+using HRM.Web.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace HelloWeb.Controllers
+namespace HRM.Web.Controllers
 {
     public class EmployeeController : Controller
     {
@@ -79,6 +79,13 @@ namespace HelloWeb.Controllers
                 Text = x.Name,
                 Value = x.Id.ToString()
             });
+            var designation = await db.Designation.ToListAsync();
+            ViewData["Designation"] = designation.Select(y => new SelectListItem()
+            {
+                Text = y.Name,
+                Value = y.Id.ToString()
+            });
+
             var employee = await db.Employees.FindAsync(id);
             //var employee = Employee.Where(XmlConfigurationExtensions => x.ID == id).First();
             return View(employee);
