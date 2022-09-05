@@ -3,36 +3,49 @@
     ViewData["Title"] = "Edit Employee";
 }
 
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
 
 <h2>Update Employee</h2>
 
 <div class="card mt-2 p-2">
-    <form method="post">
-        <div class="nb-2"
+    <form method="post" enctype="multipart/form-data">
+
+        <div class="mv-3">
+            <label asp-for="Avatar" class="form-label">Profile Image</label>
+            <span asp-validation-for="Avatar" class="text-danger"></span>
+            <input asp-for="Avatar" class="custom-file-input" />
+            <img height="50" style="border-radius:50%" src="/profile-images/@Model.ProfileImage" />
+        </div>
+
+        <div class="nb-2">
     <label asp-for="FirstName" class="form-label"></label>
     <input asp-for="FirstName" class="form-control" />
     </div>
-        <div class="nb-2"
+        <div class="nb-2">
     <label asp-for="LastName" class="form-label"></label>
     <input asp-for="LastName" class="form-control" />
     </div>
-        <div class="nb-2"
+        <div class="nb-2">
     <label asp-for="Designation" class="form-label"></label>
     <select asp-for="DesignationId" asp-items="@ViewData["Designation"] as IEnumerable<SelectListItem>" class="form-select">
             </select>
     <!--<input asp-for="Designation" class="form-control" />-->
     </div>
-        <div class="nb-2"
+        <div class="nb-2">
     <label asp-for="level" class="form-label"></label>
     <input asp-for="level" class="form-control" />
     </div>
-        <div class="nb-2"
+        <div class="nb-2">
     <label asp-for="Department" class="form-label"></label>
     <select asp-for="DepartmentId" asp-items="@ViewData["Department"] as IEnumerable<SelectListItem>" class="form-select">
             </select>
     <!--<input asp-for="Department" class="form-control" />-->
     </div>
-    <div class="nb-2"
+    <div class="nb-2">
     <label asp-for="JoinDate" class="form-label"></label>
     <input asp-for="JoinDate" class="form-control" />
     </div>

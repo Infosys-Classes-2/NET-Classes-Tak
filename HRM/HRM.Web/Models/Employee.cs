@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Web;
 
 namespace HRM.Web.Models;
@@ -32,11 +33,8 @@ public class Employee
     public Department Department { get; set; }
 
     // For Image Path Store
-    /*
-    [DisplayName("Your Image")]
-    public string ImagePath { get; set; }
-
-    // For Image Store
-    public HttpPostedFileBase ImageFile { get; set; }
-    */
+    [NotMapped]
+    [DisplayName("Upload Your Profile Image")]
+    public IFormFile Avatar { get; set; }
+    public string? ProfileImage { get; set; }
 }

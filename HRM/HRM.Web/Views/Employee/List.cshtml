@@ -10,6 +10,7 @@
 <h2>Employees List</h2>
 <table class="table">
     <tr>
+        <th>Profile</th>
         <th>Id</th>
         <th>FirstName</th>
         <th>LastName</th>
@@ -22,6 +23,7 @@
         @foreach (Employee employee in Model)
         {
         <tr>
+            <td>@*<img height="50" style="border-radius:50%" src="/profile-images/@employee.ProfileImage"/>*@</td>
             <td>@employee.Id</td>
             <td>@employee.FirstName</td>
             <td>@employee.LastName</td>

@@ -14,6 +14,7 @@ namespace HRM.Web.Controllers
 
         private readonly EmployeeContext db;
 
+
         // Dependency injection (DI), built-in
         public EmployeeController(EmployeeContext _db)
         {
@@ -63,6 +64,19 @@ namespace HRM.Web.Controllers
         [HttpPost] // This will be called when submit button click
         public async Task<IActionResult> Add(Employee emp) //View bata data pauna, db lai data pathauna viewbata
         {
+            //Save profile image to "Profile-images" folder
+            var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "profile-images");
+
+
+            Directory.CreateDirectory(folderPath);
+
+            var uniqueImageName = $"{Guid.NewGuid():D}_{emp.Avatar.FileName}";
+            var filePath = Path.Combine(folderPath, uniqueImageName);
+
+            using FileStream fileStream = new FileStream(filePath, FileMode.Create);
+            emp.Avatar.CopyTo(fileStream);
+            emp.ProfileImage = uniqueImageName;
+
             // Add to db
             //employees.Add(emp)
             await db.Employees.AddAsync(emp);
@@ -94,6 +108,16 @@ namespace HRM.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(Employee emp) //View bata data pauna, user lai form pathauna viewma
         {
+            // I added line
+            var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "profile-images");
+            Directory.CreateDirectory(folderPath);
+            var uniqueImageName = $"{Guid.NewGuid():D}_{emp.Avatar.FileName}";
+            var filePath = Path.Combine(folderPath, uniqueImageName);
+            using FileStream fileStream = new FileStream(filePath, FileMode.Create);
+            emp.Avatar.CopyTo(fileStream);
+            emp.ProfileImage = uniqueImageName;
+            // I added upto here
+
             db.Employees.Update(emp);
             await db.SaveChangesAsync();
             return RedirectToAction(nameof(List)); //"List"
