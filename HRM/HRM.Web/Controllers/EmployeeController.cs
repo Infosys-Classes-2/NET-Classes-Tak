@@ -23,23 +23,18 @@ namespace HRM.Web.Controllers
 
         [HttpGet]
         // Async application
-        public async Task<IActionResult> List()
+        public async Task<IActionResult> List(string searchText="")
         {
             //EmployeeContext db = new();
-            var employees = await db.Employees.Include(x => x.Department).Include(y => y.Designation).ToListAsync();
-            // var degsination = await db.Employees.Include(x => x.Designation).ToListAsync();
-            /*
-            var quaryEmployee = from employee in db.Employees
-                                join dept in db.Department on employee.DepartmentId equals dept.Id
-                                select new
-                                {
-                                    Name = employee.FirstName,
-                                    Department = dept.Name
-                                };
-            */
-            //GetPeople();
+            var employees = await db.Employees
+                .Where(e => string.IsNullOrEmpty(searchText) //Short-circuit
+                || e.FirstName.Contains(searchText)
+                || e.LastName.Contains(searchText))
+                .Include(x => x.Department)
+                .Include(y => y.Designation).ToListAsync();
             return View(employees);
         }
+
         [HttpGet] // This will be called when 'Add Employee' button is clicked
         public async Task<IActionResult> Add() //view lae data dina, user lai form display garna
         {
@@ -64,27 +59,16 @@ namespace HRM.Web.Controllers
         [HttpPost] // This will be called when submit button click
         public async Task<IActionResult> Add(Employee emp) //View bata data pauna, db lai data pathauna viewbata
         {
-            //Save profile image to "Profile-images" folder
-            var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "profile-images");
+            //string uniqueImageName = SaveProfileImage(emp);
+            emp.ProfileImage = SaveProfileImage (emp.Avatar);
 
-
-            Directory.CreateDirectory(folderPath);
-
-            var uniqueImageName = $"{Guid.NewGuid():D}_{emp.Avatar.FileName}";
-            var filePath = Path.Combine(folderPath, uniqueImageName);
-
-            using FileStream fileStream = new FileStream(filePath, FileMode.Create);
-            emp.Avatar.CopyTo(fileStream);
-            emp.ProfileImage = uniqueImageName;
-
+           
             // Add to db
-            //employees.Add(emp)
             await db.Employees.AddAsync(emp);
             await db.SaveChangesAsync();
             return RedirectToAction(nameof(List)); //"List"
         }
 
-        
         public async Task<IActionResult> Edit(int id)
         {
             var department = await db.Department.ToListAsync();
@@ -101,22 +85,16 @@ namespace HRM.Web.Controllers
             });
 
             var employee = await db.Employees.FindAsync(id);
-            //var employee = Employee.Where(XmlConfigurationExtensions => x.ID == id).First();
             return View(employee);
         }
 
         [HttpPost]
         public async Task<IActionResult> Edit(Employee emp) //View bata data pauna, user lai form pathauna viewma
         {
-            // I added line
-            var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "profile-images");
-            Directory.CreateDirectory(folderPath);
-            var uniqueImageName = $"{Guid.NewGuid():D}_{emp.Avatar.FileName}";
-            var filePath = Path.Combine(folderPath, uniqueImageName);
-            using FileStream fileStream = new FileStream(filePath, FileMode.Create);
-            emp.Avatar.CopyTo(fileStream);
-            emp.ProfileImage = uniqueImageName;
-            // I added upto here
+            if (emp.Avatar is not null)
+            {
+                emp.ProfileImage = SaveProfileImage(emp.Avatar);
+            }
 
             db.Employees.Update(emp);
             await db.SaveChangesAsync();
@@ -137,6 +115,23 @@ namespace HRM.Web.Controllers
             db.SaveChanges();
             return RedirectToAction(nameof(List));
         }
+
+        private string SaveProfileImage(IFormFile avatar)
+        {
+            //Save profile image to "Profile-images" folder
+            var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "profile-images");
+
+            Directory.CreateDirectory(folderPath);
+
+            var uniqueImageName = $"{Guid.NewGuid():D}_{avatar.FileName}";
+            var filePath = Path.Combine(folderPath, uniqueImageName);
+
+            using FileStream fileStream = new FileStream(filePath, FileMode.Create);
+            avatar.CopyTo(fileStream);
+
+            return uniqueImageName;
+        }
+
 
         // Using ADO.NET
         public void GetPeople()

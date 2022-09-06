@@ -3,12 +3,6 @@
     ViewData["Title"] = "Edit Employee";
 }
 
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-    }
-
 <h2>Update Employee</h2>
 
 <div class="card mt-2 p-2">
@@ -16,10 +10,10 @@
 
         <div class="mv-3">
             <label asp-for="Avatar" class="form-label">Profile Image</label>
-            <span asp-validation-for="Avatar" class="text-danger"></span>
-            <input asp-for="Avatar" class="custom-file-input" />
-            <img height="50" style="border-radius:50%" src="/profile-images/@Model.ProfileImage" />
+            <input asp-for="Avatar" class="form-control" />
         </div>
+        <input type="hidden" asp-for="ProfileImage"/>
+        <img height="30" class="rounded-circle" src="/profile-images/@Model.ProfileImage" />
 
         <div class="nb-2">
     <label asp-for="FirstName" class="form-label"></label>
