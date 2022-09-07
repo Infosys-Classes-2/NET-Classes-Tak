@@ -4,6 +4,7 @@ using Microsoft.Data.SqlClient;
 using HRM.Web.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using HRM.Web.Mapper;
 
 namespace HRM.Web.Controllers
 {
@@ -30,9 +31,12 @@ namespace HRM.Web.Controllers
                 .Where(e => e.Active.Value && (string.IsNullOrEmpty(searchText) //Short-circuit
                 || e.FirstName.Contains(searchText)
                 || e.LastName.Contains(searchText)))
-                .Include(x => x.DepartmentName)
-                .Include(y => y.DesignationName).ToListAsync();
-            return View(employees);
+                .Include(x => x.Department)
+                .Include(y => y.Designation).ToListAsync();
+
+            //var employeeViewModels = employees.ToViewModel();             
+            //return View(employeeViewModels);
+            return View(employees.ToViewModel());
         }
 
         [HttpGet] // This will be called when 'Add Employee' button is clicked
@@ -57,10 +61,10 @@ namespace HRM.Web.Controllers
         }
 
         [HttpPost] // This will be called when submit button click
-        public async Task<IActionResult> Add(EmployeeViewModel emp) //View bata data pauna, db lai data pathauna viewbata
+        public async Task<IActionResult> Add(Employee emp) //View bata data pauna, db lai data pathauna viewbata
         {
             //string uniqueImageName = SaveProfileImage(emp);
-            emp.ProfileImage = SaveProfileImage (emp.Avatar);
+            //emp.ProfileImage = SaveProfileImage (emp.Avatar);
             emp.Active = true;
            
             // Add to db
@@ -89,12 +93,12 @@ namespace HRM.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(EmployeeViewModel emp) //View bata data pauna, user lai form pathauna viewma
+        public async Task<IActionResult> Edit(Employee emp) //View bata data pauna, user lai form pathauna viewma
         {
-            if (emp.Avatar is not null)
-            {
-                emp.ProfileImage = SaveProfileImage(emp.Avatar);
-            }
+            //if (emp.Avatar is not null)
+            //{
+            //    emp.ProfileImage = SaveProfileImage(emp.Avatar);
+            //}
 
             db.Employees.Update(emp);
             await db.SaveChangesAsync();
@@ -109,7 +113,7 @@ namespace HRM.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(EmployeeViewModel emp) //View bata data pauna, user lai form pathauna viewma
+        public async Task<IActionResult> Delete(Employee emp) //View bata data pauna, user lai form pathauna viewma
         {
             //db.Employees.Remove(emp);
             var employee = await db.Employees.FindAsync(emp.Id );

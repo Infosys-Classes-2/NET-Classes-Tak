@@ -17,7 +17,7 @@ namespace HRM.Web.Mapper
                 JoinDate = employee.JoinDate,
                 ProfileImage = employee.ProfileImage,
                 DepartmentName = employee.Department?.Name,
-                DesignationName = employee.Designation?.Title
+                DesignationName = employee.Designation?.Name
             };
 
             return employeeViewModel;

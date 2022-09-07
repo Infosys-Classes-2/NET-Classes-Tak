@@ -6,7 +6,7 @@ using System.Web;
 
 namespace HRM.Web.Models;
 
-public class EmployeeViewModel
+public class Employee
 {
     public int Id { get; set; }
     public string FirstName { get; set; }
@@ -14,14 +14,14 @@ public class EmployeeViewModel
     
     // One employee has only one disignation, single designation can be for multiple employees
     public int DesignationId { get; set; }
-    public string DesignationName { get; set; }
+    public Designation Designation { get; set; }
     public byte Level { get; set; }
     public DateTime JoinDate { get; set; }
 
     // Department Table ko Id sanga link
     // One employee has only one department or department has multple employees
     public int DepartmentId { get; set; }
-    public string DepartmentName { get; set; }
+    public Department Department { get; set; }
     public bool? Active { get; set; }
     public string? ProfileImage { get; set; }
 }
