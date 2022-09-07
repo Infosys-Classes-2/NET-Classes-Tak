@@ -22,16 +22,16 @@ namespace HRM.Web.Controllers
         }
 
         [HttpGet]
-        // Async application
+        // if nullable then keep .Value, if no nullable then no need to keep .Value
         public async Task<IActionResult> List(string searchText="")
         {
-            //EmployeeContext db = new();
+            //EmployeeContext db = ne
             var employees = await db.Employees
-                .Where(e => string.IsNullOrEmpty(searchText) //Short-circuit
+                .Where(e => e.Active.Value && (string.IsNullOrEmpty(searchText) //Short-circuit
                 || e.FirstName.Contains(searchText)
-                || e.LastName.Contains(searchText))
-                .Include(x => x.Department)
-                .Include(y => y.Designation).ToListAsync();
+                || e.LastName.Contains(searchText)))
+                .Include(x => x.DepartmentName)
+                .Include(y => y.DesignationName).ToListAsync();
             return View(employees);
         }
 
@@ -57,11 +57,11 @@ namespace HRM.Web.Controllers
         }
 
         [HttpPost] // This will be called when submit button click
-        public async Task<IActionResult> Add(Employee emp) //View bata data pauna, db lai data pathauna viewbata
+        public async Task<IActionResult> Add(EmployeeViewModel emp) //View bata data pauna, db lai data pathauna viewbata
         {
             //string uniqueImageName = SaveProfileImage(emp);
             emp.ProfileImage = SaveProfileImage (emp.Avatar);
-
+            emp.Active = true;
            
             // Add to db
             await db.Employees.AddAsync(emp);
@@ -89,7 +89,7 @@ namespace HRM.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Employee emp) //View bata data pauna, user lai form pathauna viewma
+        public async Task<IActionResult> Edit(EmployeeViewModel emp) //View bata data pauna, user lai form pathauna viewma
         {
             if (emp.Avatar is not null)
             {
@@ -109,9 +109,11 @@ namespace HRM.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Delete(Employee emp) //View bata data pauna, user lai form pathauna viewma
+        public async Task<IActionResult> Delete(EmployeeViewModel emp) //View bata data pauna, user lai form pathauna viewma
         {
-            db.Employees.Remove(emp);
+            //db.Employees.Remove(emp);
+            var employee = await db.Employees.FindAsync(emp.Id );
+            employee.Active = false;
             db.SaveChanges();
             return RedirectToAction(nameof(List));
         }

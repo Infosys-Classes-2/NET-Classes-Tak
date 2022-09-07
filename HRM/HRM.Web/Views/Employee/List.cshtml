@@ -1,4 +1,5 @@
-﻿@model List<Employee>
+﻿@using HRM.Web.ViewModels
+@model List<EmployeeViewModel>
 
 @{
     ViewData["Title"] = "Employee List";
@@ -27,16 +28,16 @@
         <th>Join Date</th>
         <th>Action</th>
     </tr>
-        @foreach (Employee employee in Model)
+        @foreach (var employee in Model)
         {
         <tr>
             <td><img height="30" class="rounded-circle" src="/profile-images/@employee.ProfileImage" /></td>
             <td>@employee.Id</td>
             <td>@employee.FirstName</td>
             <td>@employee.LastName</td>
-            <td>@employee.Designation.Name</td>
+            <td>@employee.DesignationName</td>
             <td>@employee.level</td>
-            <td>@employee.Department.Name</td>
+            <td>@employee.DepartmentName</td>
             <td>@employee.JoinDate</td>
             <!--
             <td>
