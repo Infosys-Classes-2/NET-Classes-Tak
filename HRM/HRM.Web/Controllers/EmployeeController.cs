@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using HRM.Web.Models;
-using Microsoft.Data.SqlClient;
-using HRM.Web.Data;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using HRM.Web.Data;
 using HRM.Web.Mapper;
+using HRM.Web.Models;
+using HRM.Web.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 
 namespace HRM.Web.Controllers
 {
@@ -61,11 +63,14 @@ namespace HRM.Web.Controllers
         }
 
         [HttpPost] // This will be called when submit button click
-        public async Task<IActionResult> Add(Employee emp) //View bata data pauna, db lai data pathauna viewbata
+        public async Task<IActionResult> Add(EmployeeViewModel employeeViewModel) //View bata data pauna, db lai data pathauna viewbata
         {
             //string uniqueImageName = SaveProfileImage(emp);
             //emp.ProfileImage = SaveProfileImage (emp.Avatar);
-            emp.Active = true;
+            employeeViewModel.ProfileImage = SaveProfileImage(employeeViewModel.Avatar);
+            employeeViewModel.Active = true;
+
+            var emp = employeeViewModel.ToModel();
            
             // Add to db
             await db.Employees.AddAsync(emp);
@@ -89,16 +94,19 @@ namespace HRM.Web.Controllers
             });
 
             var employee = await db.Employees.FindAsync(id);
-            return View(employee);
+
+            return View(employee.ToViewModel());
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Employee emp) //View bata data pauna, user lai form pathauna viewma
+        public async Task<IActionResult> Edit(EmployeeViewModel employeeViewModel) //View bata data pauna, user lai form pathauna viewma
         {
-            //if (emp.Avatar is not null)
-            //{
-            //    emp.ProfileImage = SaveProfileImage(emp.Avatar);
-            //}
+            if (employeeViewModel.Avatar is not null)
+            {
+                employeeViewModel.ProfileImage = SaveProfileImage(employeeViewModel.Avatar);
+            }
+
+            var emp = employeeViewModel.ToModel();
 
             db.Employees.Update(emp);
             await db.SaveChangesAsync();
