@@ -41,7 +41,7 @@ namespace HRM.Web.Controllers
             return View(employees.ToViewModel());
         }
 
-        [HttpGet] // This will be called when 'Add Employee' button is clicked
+        [HttpGet, Authorize] // This will be called when 'Add Employee' button is clicked
         public async Task<IActionResult> Add() //view lae data dina, user lai form display garna
         {
             // Dropdown list selection for form field for Dept
