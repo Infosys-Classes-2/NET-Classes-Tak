@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HRM.Web.Data;
 using HRM.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HRM.Web.Controllers
 {
@@ -46,6 +47,7 @@ namespace HRM.Web.Controllers
         }
 
         // GET: Department/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
