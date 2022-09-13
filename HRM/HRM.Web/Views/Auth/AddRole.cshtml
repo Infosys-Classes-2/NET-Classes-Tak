@@ -1,9 +1,16 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @model IdentityRole
 
+@{
+    ViewData["Title"] = "Add Role";
+}
+
 <form method="post">
-    <label asp-for="Name" />
-    <input asp-for="Name" />
+    <div class="mt-3">
+    <label class="form-label" asp-for="Name" />
+    <input class="form-control" asp-for="Name" />
+    </div>
 
     <button type="submit" class="btn btn-success">Add Role</button>
+    <a asp-action="Index">Back to List</a>
 </form>
