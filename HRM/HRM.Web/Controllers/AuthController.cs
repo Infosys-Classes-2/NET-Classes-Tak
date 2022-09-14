@@ -41,6 +41,7 @@ namespace HRM.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> AssignRole(IdentityUser user)
         {
+            var result = await userManager.CreateAsync(user);
             return View(user);
         }
     }
