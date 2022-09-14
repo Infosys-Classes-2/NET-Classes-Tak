@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using HRM.Web.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace HRM.Web.Controllers
 {
@@ -33,16 +35,32 @@ namespace HRM.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> AssignRole()
+        public IActionResult AssignRole()
         {
-            return View();
+            var users = userManager.Users.ToList();
+            var roles = roleManager.Roles.ToList();
+
+            UserRoleViewModel userRoleViewModel = new()
+            {
+                Users = users.Select(x => new SelectListItem { Text = x.UserName, Value = x.Id }),
+                Roles = roles.Select(x => new RoleItem { Value = x.Name, IsSelected = false }).ToList()
+            };
+            return View(userRoleViewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AssignRole(IdentityUser user)
+        public async Task<IActionResult> AssignRole(UserRoleViewModel userRoleViewModel)
         {
-            var result = await userManager.CreateAsync(user);
-            return View(user);
+            var user = await userManager.FindByIdAsync(userRoleViewModel.UserId);
+            var rolesSelected = userRoleViewModel.Roles
+                .Where(x => x.IsSelected)
+                .Select(x => x.Value);
+            foreach(var role in rolesSelected)
+            {
+                await userManager.AddToRoleAsync(user, role);
+            }
+
+            return RedirectToAction(nameof(AssignRole));
         }
     }
 }

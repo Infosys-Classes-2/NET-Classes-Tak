@@ -8,9 +8,17 @@ builder.Services.AddControllersWithViews();
 // Dependency Injection Built-in link (configuration)
 builder.Services.AddDbContext<EmployeeContext>();
 
+//builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+  //  .AddEntityFrameworkStores<EmployeeContext>();
+
+//builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => 
+//  options.SignIn.RequireConfirmedAccount = false)
+//.AddEntityFrameworkStores<EmployeeContext>();
+
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => 
     options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<EmployeeContext>();
+
 
 builder.Services.AddRazorPages();
 
