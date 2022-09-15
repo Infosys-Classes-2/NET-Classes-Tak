@@ -62,5 +62,12 @@ namespace HRM.Web.Controllers
 
             return RedirectToAction(nameof(AssignRole));
         }
+
+        public async Task<IActionResult> RoleAssignList()
+        {
+            var users = userManager.Users.ToList();
+            var roles = roleManager.Roles.ToList();
+            return View(users);
+        }
     }
 }

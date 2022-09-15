@@ -15,9 +15,12 @@ builder.Services.AddDbContext<EmployeeContext>();
 //  options.SignIn.RequireConfirmedAccount = false)
 //.AddEntityFrameworkStores<EmployeeContext>();
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => 
+builder.Services.AddDefaultIdentity<IdentityUser>(options => 
     options.SignIn.RequireConfirmedAccount = false)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<EmployeeContext>();
+
+
 
 
 builder.Services.AddRazorPages();
