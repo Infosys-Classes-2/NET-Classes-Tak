@@ -1,4 +1,4 @@
-﻿using HRM.Web.Data;
+﻿using HRM.Infrastructure.Repositories;
 using HRM.Web.Mapper;
 using HRM.Web.Models;
 using HRM.Web.ViewModels;
@@ -6,133 +6,122 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
 
 namespace HRM.Web.Controllers
 {
     public class EmployeeController : Controller
     {
-        // Tightly coupled code
-        // EmployeeContext db = new EmployeeContext();
-
-        private readonly EmployeeContext db;
-
+        private readonly EmployeeRepository employeeRepository;
+        private readonly DepartmentRepository departmentRepository;
+        private readonly DesignationRepository designationRepository;
 
         // Dependency injection (DI), built-in
-        public EmployeeController(EmployeeContext _db)
+        public EmployeeController(EmployeeRepository employeeRepository,
+            DepartmentRepository departmentRepository,
+            DesignationRepository designationRepository)
         {
-            this.db = _db;
+            this.employeeRepository = employeeRepository;
+            this.departmentRepository = departmentRepository;
+            this.designationRepository = designationRepository;
         }
 
         [HttpGet]
-        // if nullable then keep .Value, if no nullable then no need to keep .Value
-        public async Task<IActionResult> List(string searchText="")
+        public async Task<IActionResult> List(string searchText)
         {
-            //EmployeeContext db = ne
-            var employees = await db.Employees
-                .Where(e => e.Active.Value && (string.IsNullOrEmpty(searchText) //Short-circuit
-                || e.FirstName.Contains(searchText)
-                || e.LastName.Contains(searchText)))
-                .Include(x => x.Department)
-                .Include(y => y.Designation).ToListAsync();
+            var employees = await employeeRepository.GetAllAsync(searchText);
 
-            //var employeeViewModels = employees.ToViewModel();             
-            //return View(employeeViewModels);
             return View(employees.ToViewModel());
         }
 
-        [HttpGet, Authorize] // This will be called when 'Add Employee' button is clicked
-        public async Task<IActionResult> Add() //view lae data dina, user lai form display garna
+        [HttpGet, Authorize]
+        public async Task<IActionResult> Add()
         {
-            // Dropdown list selection for form field for Dept
-            var department = await db.Department.ToListAsync();
-            ViewData["Department"] = department.Select(x => new SelectListItem()
+            var departments = await departmentRepository.GetAll();
+            ViewData["Department"] = departments.Select(x => new SelectListItem()
+            {
+                Text = x.Name,
+                Value = x.Id.ToString()
+            });
+            var designations = await designationRepository.GetAll();
+            ViewData["Designation"] = designations.Select(x => new SelectListItem()
             {
                 Text = x.Name,
                 Value = x.Id.ToString()
             });
 
-            // Dropdown list selection for form field for Designation
-            var designation = await db.Designation.ToListAsync();
-            ViewData["Designation"] = designation.Select(x => new SelectListItem()
-            {
-                Text = x.Name,
-                Value = x.Id.ToString()
-            });
             return View();
         }
 
-        [HttpPost] // This will be called when submit button click
-        public async Task<IActionResult> Add(EmployeeViewModel employeeViewModel) //View bata data pauna, db lai data pathauna viewbata
+        [HttpPost]
+        public async Task<IActionResult> Add(EmployeeViewModel employeeViewModel)
         {
-            //string uniqueImageName = SaveProfileImage(emp);
-            //emp.ProfileImage = SaveProfileImage (emp.Avatar);
             employeeViewModel.ProfileImage = SaveProfileImage(employeeViewModel.Avatar);
             employeeViewModel.Active = true;
 
             var emp = employeeViewModel.ToModel();
-           
-            // Add to db
-            await db.Employees.AddAsync(emp);
-            await db.SaveChangesAsync();
-            return RedirectToAction(nameof(List)); //"List"
+
+            employeeRepository.InsertAsync(emp);
+
+            return RedirectToAction(nameof(List));
         }
 
         public async Task<IActionResult> Edit(int id)
         {
-            var department = await db.Department.ToListAsync();
-            ViewData["Department"] = department.Select(x => new SelectListItem()
+            var departments = await departmentRepository.GetAll();
+            ViewData["Department"] = departments.Select(x => new SelectListItem()
             {
                 Text = x.Name,
                 Value = x.Id.ToString()
             });
-            var designation = await db.Designation.ToListAsync();
-            ViewData["Designation"] = designation.Select(y => new SelectListItem()
+
+            var designations = await designationRepository.GetAll();
+            ViewData["Designation"] = designations.Select(x => new SelectListItem()
             {
-                Text = y.Name,
-                Value = y.Id.ToString()
+                Text = x.Name,
+                Value = x.Id.ToString()
             });
 
-            var employee = await db.Employees.FindAsync(id);
+            var employee = await employeeRepository.GetAsync(id);
 
             return View(employee.ToViewModel());
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(EmployeeViewModel employeeViewModel) //View bata data pauna, user lai form pathauna viewma
+        public async Task<IActionResult> Edit(EmployeeViewModel employeeViewModel)
         {
             if (employeeViewModel.Avatar is not null)
             {
                 employeeViewModel.ProfileImage = SaveProfileImage(employeeViewModel.Avatar);
             }
-
             var emp = employeeViewModel.ToModel();
 
-            db.Employees.Update(emp);
-            await db.SaveChangesAsync();
-            return RedirectToAction(nameof(List)); //"List"
+            await employeeRepository.EditAsync(emp);
+
+            return RedirectToAction(nameof(List));
         }
 
-        [HttpGet]
-        public IActionResult Delete(int id) //View bata data pauna, user lai form pathauna viewma
-        {            
-            var employee = db.Employees.Find(id);
+        public IActionResult Delete(int id)
+        {
+            var employee = employeeRepository.GetAsync(id);
             return View(employee);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(Employee emp) //View bata data pauna, user lai form pathauna viewma
+        public async Task<IActionResult> Delete(Employee emp)
         {
             //db.Employees.Remove(emp);
-            var employee = await db.Employees.FindAsync(emp.Id );
+            var employee = await employeeRepository.GetAsync(emp.Id);
+
             employee.Active = false;
-            db.SaveChanges();
+
+            employeeRepository.CommitAsync();
+
             return RedirectToAction(nameof(List));
         }
 
         private string SaveProfileImage(IFormFile avatar)
         {
-            //Save profile image to "Profile-images" folder
+            // Save profile image to "profile-images" folder        
             var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "profile-images");
 
             Directory.CreateDirectory(folderPath);
@@ -140,7 +129,7 @@ namespace HRM.Web.Controllers
             var uniqueImageName = $"{Guid.NewGuid():D}_{avatar.FileName}";
             var filePath = Path.Combine(folderPath, uniqueImageName);
 
-            using FileStream fileStream = new FileStream(filePath, FileMode.Create);
+            using FileStream fileStream = new(filePath, FileMode.Create);
             avatar.CopyTo(fileStream);
 
             return uniqueImageName;
@@ -155,14 +144,9 @@ namespace HRM.Web.Controllers
                 @"Data Source=(localdb)\mssqllocaldb;Initial Catalog=TestDb;"
                 + "Integrated Security=true";
 
-            // Provide the query string with a parameter placeholder.
-            string queryString =
-                "SELECT * from dbo.Person";
+            string queryString = "SELECT * from person";
 
-        // Create and open the connection in a using block. This
-        // ensures that all resources will be closed and disposed
-        // when the code exits.
-        using (SqlConnection connection = new(connectionString))
+            using (SqlConnection connection = new(connectionString))
             {
                 // Create the Command and Parameter objects.
                 SqlCommand command = new(queryString, connection);
@@ -185,6 +169,7 @@ namespace HRM.Web.Controllers
                 {
                     Console.WriteLine(ex.Message);
                 }
+                Console.ReadLine();
             }
         }
     }

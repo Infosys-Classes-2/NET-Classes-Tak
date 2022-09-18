@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Linq;
 
 namespace HRM.Web.Controllers
 {
@@ -67,6 +68,7 @@ namespace HRM.Web.Controllers
         {
             var users = userManager.Users.ToList();
             var roles = roleManager.Roles.ToList();
+
             return View(users);
         }
     }
