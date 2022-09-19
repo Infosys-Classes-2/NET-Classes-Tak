@@ -23,6 +23,8 @@ namespace HRM.Web.Mapper
             {
                 Id = departmentViewModel.Id,
                 Name = departmentViewModel.Name,
+                Description = departmentViewModel.Description,
+                Established = departmentViewModel.Established
 
             };
 
