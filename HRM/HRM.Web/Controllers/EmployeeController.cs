@@ -36,7 +36,7 @@ namespace HRM.Web.Controllers
         [HttpGet, Authorize]
         public async Task<IActionResult> Add()
         {
-            var departments = await departmentRepository.GetAll();
+            var departments = await departmentRepository.GetAllAsync();
             ViewData["Department"] = departments.Select(x => new SelectListItem()
             {
                 Text = x.Name,
@@ -67,7 +67,7 @@ namespace HRM.Web.Controllers
 
         public async Task<IActionResult> Edit(int id)
         {
-            var departments = await departmentRepository.GetAll();
+            var departments = await departmentRepository.GetAllAsync();
             ViewData["Department"] = departments.Select(x => new SelectListItem()
             {
                 Text = x.Name,

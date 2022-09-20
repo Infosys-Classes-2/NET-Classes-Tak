@@ -45,7 +45,7 @@ namespace HRM.Web.Controllers
         */
         public async Task<IActionResult> Index()
         {
-            var department = await departmentRepository.GetAll();
+            var department = await departmentRepository.GetAllAsync();
 
             return View(department.ToViewModel());
         }
@@ -53,7 +53,7 @@ namespace HRM.Web.Controllers
         // GET: Department/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            var department = await departmentRepository.GetAll();
+            var department = await departmentRepository.GetAllAsync();
 
             return View(department.ToViewModel());
 

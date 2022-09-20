@@ -12,7 +12,7 @@ namespace HRM.Infrastructure.Repositories
             db = employeeContext;
         }
 
-        public async Task<List<Department>> GetAll()
+        public async Task<List<Department>> GetAllAsync()
         {
             var departments = await db.Department.ToListAsync();
             return departments;
