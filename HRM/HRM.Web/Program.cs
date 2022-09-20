@@ -11,7 +11,7 @@ builder.Services.AddDbContext<EmployeeContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("hrmConnection")));
 
 builder.Services.AddScoped<EmployeeRepository>();
-builder.Services.AddScoped<DepartmentRepository>();
+builder.Services.AddScoped<DepartmentRepositoryNU>();
 builder.Services.AddScoped<DesignationRepository>();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>

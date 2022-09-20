@@ -4,38 +4,34 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HRM.Infrastructure.Repositories
 {
-    public class DepartmentRepository
+    public class DepartmentRepositoryNU
     {
         private readonly EmployeeContext db;
-        public DepartmentRepository(EmployeeContext employeeContext)
+        public DepartmentRepositoryNU(EmployeeContext employeeContext)
         {
             db = employeeContext;
         }
 
         public async Task<List<Department>> GetAllAsync()
         {
-            var departments = db.Department.ToList();
+            var departments = await db.Department.ToListAsync();
             return departments;
         }
 
+        //Mine Added
         public async Task<Department> GetAsync(int id) =>
-            await db.Department.FindAsync(id);
+         await db.Department.FindAsync(id);
 
-        public async Task<int> InsertAsync(Department department)
+
+        public async Task<int> InsertAsync(Department dept)
         {
-            await db.Department.AddAsync(department);
+            await db.Department.AddAsync(dept);
             return await CommitAsync();
         }
 
-        public async Task<int> EditAsync(Department department)
+        public async Task<int> EditAsync(Department dept)
         {
-            db.Department.Update(department);
-            return await CommitAsync();
-        }
-
-        public async Task<int> DeleteAsync(Department department)
-        {
-            db.Department.Remove(department);
+            db.Department.Update(dept);
             return await CommitAsync();
         }
 
@@ -44,5 +40,12 @@ namespace HRM.Infrastructure.Repositories
             var rowsAffected = await db.SaveChangesAsync();
             return rowsAffected;
         }
+        public async Task<int> DeleteAsync(Department dept)
+        {
+            db.Department.Remove(dept);
+            return await CommitAsync();
+        }
+
+
     }
 }

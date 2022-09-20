@@ -16,7 +16,7 @@ namespace HRM.Infrastructure.Repositories
             db = employeeContext;
         }
 
-        public async Task<List<Designation>> GetAll()
+        public async Task<List<Designation>> GetAllAsync()
         {
             var designations = db.Designation.ToList();
             return designations;
@@ -27,15 +27,21 @@ namespace HRM.Infrastructure.Repositories
          await db.Designation.FindAsync(id);
 
 
-        public async Task<int> InsertAsync(Designation dgn)
+        public async Task<int> InsertAsync(Designation department)
         {
-            await db.Designation.AddAsync(dgn);
+            await db.Designation.AddAsync(department);
             return await CommitAsync();
         }
 
-        public async Task<int> EditAsync(Designation dgn)
+        public async Task<int> EditAsync(Designation department)
         {
-            db.Designation.Update(dgn);
+            db.Designation.Update(department);
+            return await CommitAsync();
+        }
+
+        public async Task<int> DeleteAsync(Designation department)
+        {
+            db.Designation.Remove(department);
             return await CommitAsync();
         }
 

@@ -12,12 +12,12 @@ namespace HRM.Web.Controllers
     public class EmployeeController : Controller
     {
         private readonly EmployeeRepository employeeRepository;
-        private readonly DepartmentRepository departmentRepository;
+        private readonly DepartmentRepositoryNU departmentRepository;
         private readonly DesignationRepository designationRepository;
 
         // Dependency injection (DI), built-in
         public EmployeeController(EmployeeRepository employeeRepository,
-            DepartmentRepository departmentRepository,
+            DepartmentRepositoryNU departmentRepository,
             DesignationRepository designationRepository)
         {
             this.employeeRepository = employeeRepository;
@@ -36,13 +36,13 @@ namespace HRM.Web.Controllers
         [HttpGet, Authorize]
         public async Task<IActionResult> Add()
         {
-            var departments = await departmentRepository.GetAll();
+            var departments = await departmentRepository.GetAllAsync();
             ViewData["Department"] = departments.Select(x => new SelectListItem()
             {
                 Text = x.Name,
                 Value = x.Id.ToString()
             });
-            var designations = await designationRepository.GetAll();
+            var designations = await designationRepository.GetAllAsync();
             ViewData["Designation"] = designations.Select(x => new SelectListItem()
             {
                 Text = x.Name,
@@ -67,14 +67,14 @@ namespace HRM.Web.Controllers
 
         public async Task<IActionResult> Edit(int id)
         {
-            var departments = await departmentRepository.GetAll();
+            var departments = await departmentRepository.GetAllAsync();
             ViewData["Department"] = departments.Select(x => new SelectListItem()
             {
                 Text = x.Name,
                 Value = x.Id.ToString()
             });
 
-            var designations = await designationRepository.GetAll();
+            var designations = await designationRepository.GetAllAsync();
             ViewData["Designation"] = designations.Select(x => new SelectListItem()
             {
                 Text = x.Name,
