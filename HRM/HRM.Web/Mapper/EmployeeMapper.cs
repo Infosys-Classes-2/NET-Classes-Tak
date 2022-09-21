@@ -1,4 +1,4 @@
-﻿using HRM.Web.Models;
+﻿using HRM.ApplicationCore.Models;
 using HRM.Web.ViewModels;
 
 namespace HRM.Web.Mapper

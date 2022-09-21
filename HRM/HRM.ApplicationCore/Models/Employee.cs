@@ -1,10 +1,4 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Web;
-
-namespace HRM.Web.Models;
-
+﻿namespace HRM.ApplicationCore.Models;
 public class Employee
 {
     public int Id { get; set; }

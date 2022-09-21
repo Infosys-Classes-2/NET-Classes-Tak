@@ -4,7 +4,7 @@ namespace HRM.Web.ViewModels
 {
     public class UserRoleViewModel
     {
-        public string UserId { get; set; } 
+        public string UserId { get; set; }
 
         public IEnumerable<SelectListItem> Users { get; set; }
         public List<RoleItem> Roles { get; set; }

@@ -1,10 +1,6 @@
 ﻿@using HRM.Web.ViewModels
 @model UserRoleViewModel
 
-@{
-    ViewData["Title"] = "Assign Role";
-}
-
 <form method="post">
 
     <div class="mb-3">
@@ -14,16 +10,16 @@
     <div class="mb-3">
         <label class="form-label">Select Roles for above user</label>
         @for (var i = 0; i < Model.Roles.Count; i++)
-        {
-            <div class="form-check">
-                <input asp-for="@Model.Roles[i].IsSelected" class="form-check-input" />
-                <label asp-for="@Model.Roles[i].IsSelected" class="form-check-label">
-                    @Model.Roles[i].Value
-                </label>
-                <input type="hidden" asp-for="@Model.Roles[i].Value" />
-                <input type="hidden" asp-for="@Model.Roles[i].IsSelected" />
-            </div>
-        }
+            {
+                <div class="form-check">
+                    <input asp-for="@Model.Roles[i].IsSelected" class="form-check-input"/>
+                    <label asp-for="@Model.Roles[i].IsSelected" class="form-check-label">
+                        @Model.Roles[i].Value
+                    </label>
+                    <input type="hidden" asp-for="@Model.Roles[i].Value" />
+                    <input type="hidden" asp-for="@Model.Roles[i].IsSelected" />
+                </div>
+            }
     </div>
     <button type="submit" class="btn btn-outline-success">Assign Roles</button>
 </form>

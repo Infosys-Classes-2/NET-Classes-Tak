@@ -1,10 +1,5 @@
 ﻿@using HRM.Web.ViewModels
 @model EmployeeViewModel
-@{
-    ViewData["Title"] = "Edit Employee";
-}
-
-<h2>Update Employee</h2>
 
 <div class="card mt-2 p-4">
     <form method="post" enctype="multipart/form-data">
@@ -18,7 +13,7 @@
         </div>
         <div class="mb-3">
             <label asp-for="DesignationName" class="form-label"></label>
-            <select asp-for="DesignationId" asp-items="@ViewData["Designation"] as IEnumerable<SelectListItem>" class="form-select">
+            <select asp-for="DesignationId" asp-items="@ViewData["Designations"] as IEnumerable<SelectListItem>" class="form-select">
             </select>
         </div>
         <div class="mb-3">
@@ -27,7 +22,7 @@
         </div>
         <div class="mb-3">
             <label asp-for="DepartmentName" class="form-label"></label>
-            <select asp-for="DepartmentId" asp-items="@ViewData["Department"] as IEnumerable<SelectListItem>" class="form-select">
+            <select asp-for="DepartmentId" asp-items="@ViewData["Departments"] as IEnumerable<SelectListItem>" class="form-select">
             </select>
         </div>
         <div class="mb-3">

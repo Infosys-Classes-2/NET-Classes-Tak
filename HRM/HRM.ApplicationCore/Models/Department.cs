@@ -1,4 +1,4 @@
-﻿namespace HRM.Web.Models
+﻿namespace HRM.ApplicationCore.Models
 {
     public class Department
     {

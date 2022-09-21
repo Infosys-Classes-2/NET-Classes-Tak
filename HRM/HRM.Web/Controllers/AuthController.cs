@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Linq;
 
 namespace HRM.Web.Controllers
 {
@@ -15,25 +14,24 @@ namespace HRM.Web.Controllers
         {
             this.roleManager = roleManager;
             this.userManager = userManager;
-
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Roles()
         {
             var roles = roleManager.Roles.ToList();
             return View(roles);
         }
 
-        //public IActionResult Index()
-        public async Task<IActionResult> AddRole()
+        public IActionResult AddRole()
         {
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> AddRole(IdentityRole role)
         {
             var result = await roleManager.CreateAsync(role);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Roles));
         }
 
         public IActionResult AssignRole()
@@ -46,6 +44,7 @@ namespace HRM.Web.Controllers
                 Users = users.Select(x => new SelectListItem { Text = x.UserName, Value = x.Id }),
                 Roles = roles.Select(x => new RoleItem { Value = x.Name, IsSelected = false }).ToList()
             };
+
             return View(userRoleViewModel);
         }
 
@@ -56,20 +55,13 @@ namespace HRM.Web.Controllers
             var rolesSelected = userRoleViewModel.Roles
                 .Where(x => x.IsSelected)
                 .Select(x => x.Value);
-            foreach(var role in rolesSelected)
+
+            foreach (var role in rolesSelected)
             {
                 await userManager.AddToRoleAsync(user, role);
             }
 
             return RedirectToAction(nameof(AssignRole));
-        }
-
-        public async Task<IActionResult> RoleAssignList()
-        {
-            var users = userManager.Users.ToList();
-            var roles = roleManager.Roles.ToList();
-
-            return View(users);
         }
     }
 }

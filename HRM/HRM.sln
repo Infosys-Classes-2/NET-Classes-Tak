@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HRM.ApplicationCore", "HRM.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HRM.Infrastructure", "HRM.Infrastructure\HRM.Infrastructure.csproj", "{623F41AA-8364-4299-BEDF-2741C68AD67B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVCWithAuth1", "MVCWithAuth1\MVCWithAuth1.csproj", "{D80AEC85-049B-4D1F-A063-2A9A1AD08E2D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MVCWithAuth1", "MVCWithAuth1\MVCWithAuth1.csproj", "{D80AEC85-049B-4D1F-A063-2A9A1AD08E2D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

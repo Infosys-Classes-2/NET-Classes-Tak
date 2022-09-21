@@ -1,4 +1,4 @@
-﻿using HRM.Web.Models;
+﻿using HRM.ApplicationCore.Models;
 using HRM.Web.ViewModels;
 
 namespace HRM.Web.Mapper
@@ -17,6 +17,7 @@ namespace HRM.Web.Mapper
 
             return departmentViewModel;
         }
+
         public static Department ToModel(this DepartmentViewModel departmentViewModel)  //Extension methods
         {
             Department department = new()
@@ -25,22 +26,21 @@ namespace HRM.Web.Mapper
                 Name = departmentViewModel.Name,
                 Description = departmentViewModel.Description,
                 Established = departmentViewModel.Established
-
             };
 
             return department;
         }
-        public static List<DepartmentViewModel> ToViewModel(this List<Department> department)
+
+        public static List<DepartmentViewModel> ToViewModel(this List<Department> departments)
         {
-            var departmentViewModels = department.Select(x => ToViewModel(x)).ToList();
+            var departmentViewModels = departments.Select(x => ToViewModel(x)).ToList();
             return departmentViewModels;
         }
 
         public static List<Department> ToModel(this List<DepartmentViewModel> departmentViewModels)
         {
-            var department = departmentViewModels.Select(x => ToModel(x)).ToList();
-            return department;
+            var departments = departmentViewModels.Select(x => ToModel(x)).ToList();
+            return departments;
         }
-
     }
 }

@@ -1,6 +1,5 @@
-﻿using HRM.Web.Data;
-using HRM.Web.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using HRM.ApplicationCore.Models;
+using HRM.Web.Data;
 
 namespace HRM.Infrastructure.Repositories
 {
@@ -14,24 +13,28 @@ namespace HRM.Infrastructure.Repositories
 
         public async Task<List<Department>> GetAllAsync()
         {
-            var departments = await db.Department.ToListAsync();
+            var departments = db.Department.ToList();
             return departments;
         }
 
-        //Mine Added
         public async Task<Department> GetAsync(int id) =>
-         await db.Department.FindAsync(id);
+            await db.Department.FindAsync(id);
 
-
-        public async Task<int> InsertAsync(Department dept)
+        public async Task<int> InsertAsync(Department department)
         {
-            await db.Department.AddAsync(dept);
+            await db.Department.AddAsync(department);
             return await CommitAsync();
         }
 
-        public async Task<int> EditAsync(Department dept)
+        public async Task<int> EditAsync(Department department)
         {
-            db.Department.Update(dept);
+            db.Department.Update(department);
+            return await CommitAsync();
+        }
+
+        public async Task<int> DeleteAsync(Department department)
+        {
+            db.Department.Remove(department);
             return await CommitAsync();
         }
 
@@ -40,12 +43,5 @@ namespace HRM.Infrastructure.Repositories
             var rowsAffected = await db.SaveChangesAsync();
             return rowsAffected;
         }
-        public async Task<int> DeleteAsync(Department dept)
-        {
-            db.Department.Remove(dept);
-            return await CommitAsync();
-        }
-
-
     }
 }

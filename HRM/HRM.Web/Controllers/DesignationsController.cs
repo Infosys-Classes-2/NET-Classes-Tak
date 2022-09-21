@@ -7,28 +7,28 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HRM.Web.Data;
 using HRM.Web.Models;
-using Microsoft.AspNetCore.Authorization;
+using HRM.ApplicationCore.Models;
 
 namespace HRM.Web.Controllers
 {
-    public class DesignationsController : Controller
+    public class DesignationController : Controller
     {
         private readonly EmployeeContext _context;
 
-        public DesignationsController(EmployeeContext context)
+        public DesignationController(EmployeeContext context)
         {
             _context = context;
         }
 
-        // GET: Designations
+        // GET: Designation
         public async Task<IActionResult> Index()
         {
             return _context.Designation != null ?
                         View(await _context.Designation.ToListAsync()) :
-                        Problem("Entity set 'EmployeeContext.Designation'  is null.");
+                        Problem("Entity set 'EmployeeContext.Designations'  is null.");
         }
 
-        // GET: Designations/Details/5
+        // GET: Designation/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Designation == null)
@@ -46,19 +46,18 @@ namespace HRM.Web.Controllers
             return View(designation);
         }
 
-        // GET: Designations/Create
-        [Authorize]
+        // GET: Designation/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Designations/Create
+        // POST: Designation/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Level,Description")] Designation designation)
+        public async Task<IActionResult> Create([Bind("Id,Title,Detials")] Designation designation)
         {
             if (ModelState.IsValid)
             {
@@ -69,7 +68,7 @@ namespace HRM.Web.Controllers
             return View(designation);
         }
 
-        // GET: Designations/Edit/5
+        // GET: Designation/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Designation == null)
@@ -85,12 +84,12 @@ namespace HRM.Web.Controllers
             return View(designation);
         }
 
-        // POST: Designations/Edit/5
+        // POST: Designation/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Level,Description")] Designation designation)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Detials")] Designation designation)
         {
             if (id != designation.Id)
             {
@@ -120,7 +119,7 @@ namespace HRM.Web.Controllers
             return View(designation);
         }
 
-        // GET: Designations/Delete/5
+        // GET: Designation/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Designation == null)
@@ -138,14 +137,14 @@ namespace HRM.Web.Controllers
             return View(designation);
         }
 
-        // POST: Designations/Delete/5
+        // POST: Designation/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Designation == null)
             {
-                return Problem("Entity set 'EmployeeContext.Designation'  is null.");
+                return Problem("Entity set 'EmployeeContext.Designations'  is null.");
             }
             var designation = await _context.Designation.FindAsync(id);
             if (designation != null)
