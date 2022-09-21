@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HRM.Infrastructure", "HRM.I
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MVCWithAuth1", "MVCWithAuth1\MVCWithAuth1.csproj", "{D80AEC85-049B-4D1F-A063-2A9A1AD08E2D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRM.Api", "HRM.Api\HRM.Api.csproj", "{18064654-CA92-4349-8D25-69A760480148}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{D80AEC85-049B-4D1F-A063-2A9A1AD08E2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D80AEC85-049B-4D1F-A063-2A9A1AD08E2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D80AEC85-049B-4D1F-A063-2A9A1AD08E2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18064654-CA92-4349-8D25-69A760480148}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18064654-CA92-4349-8D25-69A760480148}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18064654-CA92-4349-8D25-69A760480148}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18064654-CA92-4349-8D25-69A760480148}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
