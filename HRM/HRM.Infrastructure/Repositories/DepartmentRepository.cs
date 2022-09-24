@@ -1,5 +1,6 @@
 ﻿using HRM.ApplicationCore.Models;
 using HRM.Web.Data;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace HRM.Infrastructure.Repositories
 {

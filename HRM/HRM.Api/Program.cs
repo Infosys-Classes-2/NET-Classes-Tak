@@ -1,8 +1,15 @@
+using HRM.Infrastructure.Repositories;
+using HRM.Web.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddDbContext<EmployeeContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("hrmConnection")));
+builder.Services.AddScoped<DepartmentRepository>();
 
 var app = builder.Build();
 
