@@ -1,5 +1,6 @@
 using HRM.Infrastructure.Repositories;
 using HRM.Web.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +13,10 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<EmployeeContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("hrmConnection")));
+
 builder.Services.AddScoped<DepartmentRepository>();
+builder.Services.AddScoped<EmployeeRepository>();
+builder.Services.AddScoped<DesignationRepository>();
 
 var app = builder.Build();
 
