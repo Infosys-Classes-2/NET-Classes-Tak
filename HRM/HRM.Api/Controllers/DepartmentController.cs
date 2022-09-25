@@ -14,6 +14,7 @@ namespace HRM.Api.Controllers
         {
             this.departmentRepository = departmentRepository;
         }
+        [HttpGet]
         public async Task<IActionResult> Get()
         {
             var department = await departmentRepository.GetAllAsync();
