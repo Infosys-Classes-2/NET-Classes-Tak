@@ -4,7 +4,6 @@ using HRM.Web.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace HRM.Api.Controllers
 {
     [Route("api/[Controller]")]
@@ -31,10 +30,30 @@ namespace HRM.Api.Controllers
 
         [HttpGet]
         //public async Task<IActionResult> Get(string searchText)
-        public async Task<IActionResult> Get(string searchText)
+        public async Task<IActionResult> Get(string? searchText)
         {
+            //var employees = await employeeRepository.GetAllAsync(searchText);
+            //return Ok(employees);
+
             var employees = await employeeRepository.GetAllAsync(searchText);
+
             return Ok(employees);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var employees = await employeeRepository.GetAsync(id);
+            if (employees == null)
+                return NotFound();
+            return Ok(employees);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post(Employee employee)
+        {
+            await employeeRepository.InsertAsync(employee);
+            return Created(nameof(Get), employee.Id);
         }
 
     }

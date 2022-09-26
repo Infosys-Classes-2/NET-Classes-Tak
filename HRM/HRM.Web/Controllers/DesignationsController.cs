@@ -8,18 +8,27 @@ using Microsoft.EntityFrameworkCore;
 using HRM.Web.Data;
 using HRM.Web.Models;
 using HRM.ApplicationCore.Models;
+using HRM.Infrastructure.Repositories;
 
 namespace HRM.Web.Controllers
 {
     public class DesignationController : Controller
     {
+        private readonly DesignationRepository designationRepository;
+
+        public DesignationController(DesignationRepository designationRepository)
+        {
+            this.designationRepository = designationRepository;
+        }
+
+        /*
         private readonly EmployeeContext _context;
 
         public DesignationController(EmployeeContext context)
         {
             _context = context;
         }
-
+        
         // GET: Designation
         public async Task<IActionResult> Index()
         {
@@ -160,5 +169,6 @@ namespace HRM.Web.Controllers
         {
             return (_context.Designation?.Any(e => e.Id == id)).GetValueOrDefault();
         }
+        */
     }
 }
