@@ -36,8 +36,7 @@ namespace HRM.Web.Controllers
             {
                 return NotFound();
             }
-
-            return View(department.ToViewModel());
+            return View(department);
         }
 
         // GET: Department/Create

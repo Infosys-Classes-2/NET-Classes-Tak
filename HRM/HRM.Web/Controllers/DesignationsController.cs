@@ -4,6 +4,7 @@ using HRM.ApplicationCore.Models;
 using Microsoft.AspNetCore.Authorization;
 using HRM.Infrastructure.Repositories;
 using HRM.Web.Mapper;
+using HRM.Web.ViewModels;
 
 namespace HRM.Web.Controllers
 {
@@ -33,8 +34,7 @@ namespace HRM.Web.Controllers
             {
                 return NotFound();
             }
-
-            return View(designation.ToViewModel());
+            return View(designation);
         }
 
         public IActionResult Create()
@@ -63,6 +63,69 @@ namespace HRM.Web.Controllers
             }
             return View(designation);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Level, Description")] Designation designation)
+        {
+            if (id != designation.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await designationRepository.EditAsync(designation);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!DesignationExists(designation.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(designation);
+        }
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+            var designation = await designationRepository.GetAsync(id.Value);
+            if (designation == null)
+            {
+                return NotFound();
+            }
+
+            return View(designation);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var designation = await designationRepository.GetAsync(id);
+            if (designation != null)
+            {
+                await designationRepository.DeleteAsync(designation);
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+
+        private bool DesignationExists(int id)
+        {
+            var designation = designationRepository.GetAsync(id).Result;
+            return designation != null;
+        }
+
 
 
         /*
