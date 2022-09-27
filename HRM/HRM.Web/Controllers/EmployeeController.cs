@@ -42,7 +42,7 @@ public class EmployeeController : Controller
             Text = x.Name,
             Value = x.Id.ToString()
         });
-        var designations = await designationRepository.GetAll();
+        var designations = await designationRepository.GetAllAsync();
         ViewData["Designations"] = designations.Select(x => new SelectListItem()
         {
             Text = x.Name,
@@ -74,7 +74,7 @@ public class EmployeeController : Controller
             Value = x.Id.ToString()
         });
 
-        var designations = await designationRepository.GetAll();
+        var designations = await designationRepository.GetAllAsync();
         ViewData["Designations"] = designations.Select(x => new SelectListItem()
         {
             Text = x.Name,

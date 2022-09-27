@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using HRM.Web.Data;
-using HRM.Web.Models;
 using HRM.ApplicationCore.Models;
+using Microsoft.AspNetCore.Authorization;
 using HRM.Infrastructure.Repositories;
+using HRM.Web.Mapper;
 
 namespace HRM.Web.Controllers
 {
@@ -20,6 +15,55 @@ namespace HRM.Web.Controllers
         {
             this.designationRepository = designationRepository;
         }
+
+        public async Task<IActionResult> Index()
+        {
+            var designation = await designationRepository.GetAllAsync();
+            var designationViewModels = designation.ToViewModel();
+
+            return designationViewModels != null ?
+                        View(designationViewModels) :
+                        Problem("No Departments exist on database.");
+        }
+
+        public async Task<IActionResult> Details(int? id)
+        {
+            var designation = await designationRepository.GetAsync(id.Value);
+            if (designation == null)
+            {
+                return NotFound();
+            }
+
+            return View(designation.ToViewModel());
+        }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Id,Name,Level, Description")] Designation designation)
+        {
+            if (ModelState.IsValid)
+            {
+                await designationRepository.InsertAsync(designation);
+                return RedirectToAction(nameof(Index));
+            }
+            return View(designation);
+        }
+
+        public async Task<IActionResult> Edit(int? id)
+        {
+            var designation = await designationRepository.GetAsync(id.Value);
+            if (designation == null)
+            {
+                return NotFound();
+            }
+            return View(designation);
+        }
+
 
         /*
         private readonly EmployeeContext _context;

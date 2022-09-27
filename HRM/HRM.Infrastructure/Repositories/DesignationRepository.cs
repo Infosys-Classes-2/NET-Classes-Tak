@@ -13,10 +13,10 @@ namespace HRM.Infrastructure.Repositories
             db = employeeContext;
         }
 
-        public async Task<List<Designation>> GetAll()
+        public async Task<List<Designation>> GetAllAsync()
         {
-            var designations = db.Designation.ToList();
-            return designations;
+            var designation = db.Designation.ToList();
+            return designation;
         }
 
         public async Task<Designation> GetAsync(int id) =>
