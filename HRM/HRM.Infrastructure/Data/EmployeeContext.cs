@@ -25,5 +25,9 @@ namespace HRM.Web.Data
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Department> Department { get; set; }
         public DbSet<Designation> Designation { get; set; }
+        //Below My Added
+        //public DbSet<IdentityUser> IdentityUsers { get; set; }
+        //public DbSet<IdentityRole> IdentityRoles { get; set; }
+
     }
 }

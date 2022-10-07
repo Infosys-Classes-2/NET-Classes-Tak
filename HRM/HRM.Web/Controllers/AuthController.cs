@@ -2,6 +2,10 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol;
+using System.Data;
 
 namespace HRM.Web.Controllers
 {
@@ -61,7 +65,20 @@ namespace HRM.Web.Controllers
                 await userManager.AddToRoleAsync(user, role);
             }
 
-            return RedirectToAction(nameof(AssignRole));
+            return RedirectToAction(nameof(Index));
+        }
+
+        //My Added 
+        public IActionResult Index()
+        {
+            var users = userManager.Users.Select(c => new UserRoleViewModel()
+            {
+                UserId = c.UserName,
+                // Email = c.Email,
+                Roless = string.Join(", ", userManager.GetRolesAsync(c).Result.ToArray())
+            }).ToList();
+
+            return View(users);
         }
     }
 }

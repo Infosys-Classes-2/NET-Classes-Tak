@@ -1,0 +1,29 @@
+﻿@using HRM.Web.ViewModels
+@model List<UserRoleViewModel>
+
+@{
+    ViewData["Title"] = "Users with Roles";
+}
+
+
+<h3>List Users with their roles</h3>
+<hr />
+
+<table class="table">
+    <tr>
+        <th>User Id</th>
+        <th>Roles</th>
+        <th>Actions</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.UserId</td>
+            <td>@item.Roless</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.UserId">Edit</a> |
+                <a asp-action="Delete" asp-route-id="@item.UserId">Delete</a>
+            </td>
+        </tr>
+    }
+</table>

@@ -7,6 +7,7 @@ namespace HRM.Web.ViewModels
         public string UserId { get; set; }
 
         public IEnumerable<SelectListItem> Users { get; set; }
+        public string Roless { get; set; }
         public List<RoleItem> Roles { get; set; }
     }
 
