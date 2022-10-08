@@ -1,4 +1,6 @@
-﻿using HRM.Web.ViewModels;
+﻿using HRM.ApplicationCore.Models;
+using HRM.Infrastructure.Repositories;
+using HRM.Web.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
